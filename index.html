@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Element Randomiser</title>
+    <title>Chemical Element Randomizer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,13 +33,13 @@
         button:hover {
             background-color: darkblue;
         }
-        #bond-type, #result {
+        #bond-type, #result, #score {
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Chemical Element Randomiser</h1>
+    <h1>Chemical Element Randomizer</h1>
     <div id="elements">Press the button to get two random elements</div>
     <button onclick="randomizeElements()">Get Elements</button>
     <div id="bond-type">
@@ -48,11 +48,12 @@
             <option value="non-polar covalent">Non-polar Covalent</option>
             <option value="polar covalent">Polar Covalent</option>
             <option value="ionic">Ionic</option>
-            <option value="ambiguous ">ambiguous </option>
+            <option value="unknown">Unknown</option>
         </select>
         <button onclick="checkBondType()">Check Bond Type</button>
     </div>
     <div id="result"></div>
+    <div id="score"></div>
     <script>
         const elements = [
             {symbol: "H", name: "Hydrogen", type: "non-metal", electronegativity: 2.2},
@@ -97,22 +98,24 @@
             {symbol: "Au", name: "Gold", type: "metal", electronegativity: 2.4},
             {symbol: "Pb", name: "Lead", type: "metal", electronegativity: 2.3}
         ];
-        
+
         let selectedElements = [];
+        let score = 0;
+        let tries = 0;
 
         function randomizeElements() {
             const metals = elements.filter(el => el.type === "metal");
             const nonMetals = elements.filter(el => el.type === "non-metal");
-            
+
             let metalIndex = Math.floor(Math.random() * metals.length);
             let nonMetalIndex1 = Math.floor(Math.random() * nonMetals.length);
             let nonMetalIndex2;
             do {
                 nonMetalIndex2 = Math.floor(Math.random() * nonMetals.length);
             } while(nonMetalIndex1 === nonMetalIndex2);
-            
+
             let showMetal = Math.random() < 0.5;
-            
+
             if (showMetal) {
                 selectedElements = [metals[metalIndex], nonMetals[nonMetalIndex1]];
                 document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}, EN: ${metals[metalIndex].electronegativity}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity})`;
@@ -121,7 +124,7 @@
                 document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol}, EN: ${nonMetals[nonMetalIndex2].electronegativity})`;
             }
         }
-        
+
                 function checkBondType() {
             const bondType = document.getElementById("bond-select").value;
             const enDifference = Math.abs(selectedElements[0].electronegativity - selectedElements[1].electronegativity);
@@ -134,18 +137,21 @@
             } else if (enDifference >= 1.6 && (selectedElements[0].type === "metal" || selectedElements[1].type === "metal")) {
                 correctBondType = "ionic";
             } else {
-                correctBondType = "ambiguous ";
+                correctBondType = "unknown";
             }
 
             if (bondType === correctBondType) {
+                score++;
                 document.getElementById("result").innerHTML = `Correct! The bond is ${correctBondType}.`;
             } else {
                 document.getElementById("result").innerHTML = `Incorrect. The correct bond type is ${correctBondType}.`;
             }
+            
+            tries++;
+            document.getElementById("score").innerHTML = `Score: ${score} out of ${tries} tries.`;
         }
     </script>
 </body>
 </html>
 
-           
 
