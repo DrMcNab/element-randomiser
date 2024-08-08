@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Element Randomizer</title>
+    <title>Chemical Element Randomiser</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    <h1>Chemical Element Randomizer</h1>
+    <h1>Chemical Element Randomiser</h1>
     <div id="elements">Press the button to get two random elements</div>
     <button onclick="randomizeElements()">Get Elements</button>
     <div id="bond-type">
@@ -48,7 +48,7 @@
             <option value="non-polar covalent">Non-polar Covalent</option>
             <option value="polar covalent">Polar Covalent</option>
             <option value="ionic">Ionic</option>
-            <option value="unknown">Unknown</option>
+            <option value="ambiguous ">ambiguous </option>
         </select>
         <button onclick="checkBondType()">Check Bond Type</button>
     </div>
@@ -134,7 +134,7 @@
             } else if (enDifference >= 1.6 && (selectedElements[0].type === "metal" || selectedElements[1].type === "metal")) {
                 correctBondType = "ionic";
             } else {
-                correctBondType = "unknown";
+                correctBondType = "ambiguous ";
             }
 
             if (bondType === correctBondType) {
