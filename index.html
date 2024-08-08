@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Element Randomizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        #elements {
+            margin: 20px;
+            font-size: 1.5em;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chemical Element Randomizer</h1>
+    <div id="elements">Press the button to get two random elements</div>
+    <button onclick="randomizeElements()">Get Elements</button>
+    <script>
+        const elements = [
+            {symbol: "H", name: "Hydrogen"},
+            {symbol: "He", name: "Helium"},
+            {symbol: "Li", name: "Lithium"},
+            {symbol: "Be", name: "Beryllium"},
+            {symbol: "B", name: "Boron"},
+            {symbol: "C", name: "Carbon"},
+            {symbol: "N", name: "Nitrogen"},
+            {symbol: "O", name: "Oxygen"},
+            {symbol: "F", name: "Fluorine"},
+            {symbol: "Ne", name: "Neon"},
+            {symbol: "Na", name: "Sodium"},
+            {symbol: "Mg", name: "Magnesium"},
+            {symbol: "Al", name: "Aluminium"},
+            {symbol: "Si", name: "Silicon"},
+            {symbol: "P", name: "Phosphorus"},
+            {symbol: "S", name: "Sulfur"},
+            {symbol: "Cl", name: "Chlorine"},
+            {symbol: "Ar", name: "Argon"},
+            {symbol: "K", name: "Potassium"},
+            {symbol: "Ca", name: "Calcium"},
+            {symbol: "Sc", name: "Scandium"},
+            {symbol: "Ti", name: "Titanium"},
+            {symbol: "V", name: "Vanadium"},
+            {symbol: "Cr", name: "Chromium"},
+            {symbol: "Mn", name: "Manganese"},
+            {symbol: "Fe", name: "Iron"},
+            {symbol: "Co", name: "Cobalt"},
+            {symbol: "Ni", name: "Nickel"},
+            {symbol: "Cu", name: "Copper"},
+            {symbol: "Zn", name: "Zinc"},
+            {symbol: "Ga", name: "Gallium"},
+            {symbol: "Ge", name: "Germanium"},
+            {symbol: "As", name: "Arsenic"},
+            {symbol: "Br", name: "Bromine"},
+            {symbol: "Rb", name: "Rubidium"},
+            {symbol: "Sr", name: "Strontium"},
+            {symbol: "Ag", name: "Silver"},
+            {symbol: "Sn", name: "Tin"},
+            {symbol: "Sb", name: "Antimony"},
+            {symbol: "I", name: "Iodine"},
+            {symbol: "Cs", name: "Caesium"},
+            {symbol: "Ba", name: "Barium"},
+            {symbol: "Au", name: "Gold"},
+            {symbol: "Pb", name: "Lead"}
+        ];
+        
+        function randomizeElements() {
+            let index1 = Math.floor(Math.random() * elements.length);
+            let index2;
+            do {
+                index2 = Math.floor(Math.random() * elements.length);
+            } while(index1 === index2);
+            
+            document.getElementById("elements").innerHTML = `${elements[index1].name} (${elements[index1].symbol}) and ${elements[index2].name} (${elements[index2].symbol})`;
+        }
+    </script>
+</body>
+</html>
