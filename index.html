@@ -40,61 +40,72 @@
     <button onclick="randomizeElements()">Get Elements</button>
     <script>
         const elements = [
-            {symbol: "H", name: "Hydrogen"},
-            {symbol: "He", name: "Helium"},
-            {symbol: "Li", name: "Lithium"},
-            {symbol: "Be", name: "Beryllium"},
-            {symbol: "B", name: "Boron"},
-            {symbol: "C", name: "Carbon"},
-            {symbol: "N", name: "Nitrogen"},
-            {symbol: "O", name: "Oxygen"},
-            {symbol: "F", name: "Fluorine"},
-            {symbol: "Ne", name: "Neon"},
-            {symbol: "Na", name: "Sodium"},
-            {symbol: "Mg", name: "Magnesium"},
-            {symbol: "Al", name: "Aluminium"},
-            {symbol: "Si", name: "Silicon"},
-            {symbol: "P", name: "Phosphorus"},
-            {symbol: "S", name: "Sulfur"},
-            {symbol: "Cl", name: "Chlorine"},
-            {symbol: "Ar", name: "Argon"},
-            {symbol: "K", name: "Potassium"},
-            {symbol: "Ca", name: "Calcium"},
-            {symbol: "Sc", name: "Scandium"},
-            {symbol: "Ti", name: "Titanium"},
-            {symbol: "V", name: "Vanadium"},
-            {symbol: "Cr", name: "Chromium"},
-            {symbol: "Mn", name: "Manganese"},
-            {symbol: "Fe", name: "Iron"},
-            {symbol: "Co", name: "Cobalt"},
-            {symbol: "Ni", name: "Nickel"},
-            {symbol: "Cu", name: "Copper"},
-            {symbol: "Zn", name: "Zinc"},
-            {symbol: "Ga", name: "Gallium"},
-            {symbol: "Ge", name: "Germanium"},
-            {symbol: "As", name: "Arsenic"},
-            {symbol: "Br", name: "Bromine"},
-            {symbol: "Rb", name: "Rubidium"},
-            {symbol: "Sr", name: "Strontium"},
-            {symbol: "Ag", name: "Silver"},
-            {symbol: "Sn", name: "Tin"},
-            {symbol: "Sb", name: "Antimony"},
-            {symbol: "I", name: "Iodine"},
-            {symbol: "Cs", name: "Caesium"},
-            {symbol: "Ba", name: "Barium"},
-            {symbol: "Au", name: "Gold"},
-            {symbol: "Pb", name: "Lead"}
+            {symbol: "H", name: "Hydrogen", type: "non-metal"},
+            {symbol: "He", name: "Helium", type: "non-metal"},
+            {symbol: "Li", name: "Lithium", type: "metal"},
+            {symbol: "Be", name: "Beryllium", type: "metal"},
+            {symbol: "B", name: "Boron", type: "non-metal"},
+            {symbol: "C", name: "Carbon", type: "non-metal"},
+            {symbol: "N", name: "Nitrogen", type: "non-metal"},
+            {symbol: "O", name: "Oxygen", type: "non-metal"},
+            {symbol: "F", name: "Fluorine", type: "non-metal"},
+            {symbol: "Ne", name: "Neon", type: "non-metal"},
+            {symbol: "Na", name: "Sodium", type: "metal"},
+            {symbol: "Mg", name: "Magnesium", type: "metal"},
+            {symbol: "Al", name: "Aluminium", type: "metal"},
+            {symbol: "Si", name: "Silicon", type: "non-metal"},
+            {symbol: "P", name: "Phosphorus", type: "non-metal"},
+            {symbol: "S", name: "Sulfur", type: "non-metal"},
+            {symbol: "Cl", name: "Chlorine", type: "non-metal"},
+            {symbol: "Ar", name: "Argon", type: "non-metal"},
+            {symbol: "K", name: "Potassium", type: "metal"},
+            {symbol: "Ca", name: "Calcium", type: "metal"},
+            {symbol: "Sc", name: "Scandium", type: "metal"},
+            {symbol: "Ti", name: "Titanium", type: "metal"},
+            {symbol: "V", name: "Vanadium", type: "metal"},
+            {symbol: "Cr", name: "Chromium", type: "metal"},
+            {symbol: "Mn", name: "Manganese", type: "metal"},
+            {symbol: "Fe", name: "Iron", type: "metal"},
+            {symbol: "Co", name: "Cobalt", type: "metal"},
+            {symbol: "Ni", name: "Nickel", type: "metal"},
+            {symbol: "Cu", name: "Copper", type: "metal"},
+            {symbol: "Zn", name: "Zinc", type: "metal"},
+            {symbol: "Ga", name: "Gallium", type: "metal"},
+            {symbol: "Ge", name: "Germanium", type: "metal"},
+            {symbol: "As", name: "Arsenic", type: "non-metal"},
+            {symbol: "Br", name: "Bromine", type: "non-metal"},
+            {symbol: "Rb", name: "Rubidium", type: "metal"},
+            {symbol: "Sr", name: "Strontium", type: "metal"},
+            {symbol: "Ag", name: "Silver", type: "metal"},
+            {symbol: "Sn", name: "Tin", type: "metal"},
+            {symbol: "Sb", name: "Antimony", type: "non-metal"},
+            {symbol: "I", name: "Iodine", type: "non-metal"},
+            {symbol: "Cs", name: "Caesium", type: "metal"},
+            {symbol: "Ba", name: "Barium", type: "metal"},
+            {symbol: "Au", name: "Gold", type: "metal"},
+            {symbol: "Pb", name: "Lead", type: "metal"}
         ];
         
         function randomizeElements() {
-            let index1 = Math.floor(Math.random() * elements.length);
-            let index2;
-            do {
-                index2 = Math.floor(Math.random() * elements.length);
-            } while(index1 === index2);
+            const metals = elements.filter(el => el.type === "metal");
+            const nonMetals = elements.filter(el => el.type === "non-metal");
             
-            document.getElementById("elements").innerHTML = `${elements[index1].name} (${elements[index1].symbol}) and ${elements[index2].name} (${elements[index2].symbol})`;
+            let metalIndex = Math.floor(Math.random() * metals.length);
+            let nonMetalIndex1 = Math.floor(Math.random() * nonMetals.length);
+            let nonMetalIndex2;
+            do {
+                nonMetalIndex2 = Math.floor(Math.random() * nonMetals.length);
+            } while(nonMetalIndex1 === nonMetalIndex2);
+            
+            let showMetal = Math.random() < 0.5;
+            
+            if (showMetal) {
+                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol})`;
+            } else {
+                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol})`;
+            }
         }
     </script>
 </body>
 </html>
+
