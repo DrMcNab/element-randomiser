@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Element Randomiser</title>
+    <title>Chemical Element Randomizer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,64 +28,77 @@
             color: white;
             border: none;
             cursor: pointer;
+            margin: 10px;
         }
         button:hover {
             background-color: darkblue;
         }
+        #bond-type, #result {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Chemical Element Randomiser</h1>
+    <h1>Chemical Element Randomizer</h1>
     <div id="elements">Press the button to get two random elements</div>
     <button onclick="randomizeElements()">Get Elements</button>
+    <div id="bond-type">
+        <p>Choose the bond type:</p>
+        <select id="bond-select">
+            <option value="non-polar covalent">Non-polar Covalent</option>
+            <option value="polar covalent">Polar Covalent</option>
+            <option value="ionic">Ionic</option>
+        </select>
+        <button onclick="checkBondType()">Check Bond Type</button>
+    </div>
+    <div id="result"></div>
     <script>
         const elements = [
-            {symbol: "H", name: "Hydrogen", type: "non-metal"},
-            {symbol: "He", name: "Helium", type: "non-metal"},
-            {symbol: "Li", name: "Lithium", type: "metal"},
-            {symbol: "Be", name: "Beryllium", type: "metal"},
-            {symbol: "B", name: "Boron", type: "non-metal"},
-            {symbol: "C", name: "Carbon", type: "non-metal"},
-            {symbol: "N", name: "Nitrogen", type: "non-metal"},
-            {symbol: "O", name: "Oxygen", type: "non-metal"},
-            {symbol: "F", name: "Fluorine", type: "non-metal"},
-            {symbol: "Ne", name: "Neon", type: "non-metal"},
-            {symbol: "Na", name: "Sodium", type: "metal"},
-            {symbol: "Mg", name: "Magnesium", type: "metal"},
-            {symbol: "Al", name: "Aluminium", type: "metal"},
-            {symbol: "Si", name: "Silicon", type: "non-metal"},
-            {symbol: "P", name: "Phosphorus", type: "non-metal"},
-            {symbol: "S", name: "Sulfur", type: "non-metal"},
-            {symbol: "Cl", name: "Chlorine", type: "non-metal"},
-            {symbol: "Ar", name: "Argon", type: "non-metal"},
-            {symbol: "K", name: "Potassium", type: "metal"},
-            {symbol: "Ca", name: "Calcium", type: "metal"},
-            {symbol: "Sc", name: "Scandium", type: "metal"},
-            {symbol: "Ti", name: "Titanium", type: "metal"},
-            {symbol: "V", name: "Vanadium", type: "metal"},
-            {symbol: "Cr", name: "Chromium", type: "metal"},
-            {symbol: "Mn", name: "Manganese", type: "metal"},
-            {symbol: "Fe", name: "Iron", type: "metal"},
-            {symbol: "Co", name: "Cobalt", type: "metal"},
-            {symbol: "Ni", name: "Nickel", type: "metal"},
-            {symbol: "Cu", name: "Copper", type: "metal"},
-            {symbol: "Zn", name: "Zinc", type: "metal"},
-            {symbol: "Ga", name: "Gallium", type: "metal"},
-            {symbol: "Ge", name: "Germanium", type: "metal"},
-            {symbol: "As", name: "Arsenic", type: "non-metal"},
-            {symbol: "Br", name: "Bromine", type: "non-metal"},
-            {symbol: "Rb", name: "Rubidium", type: "metal"},
-            {symbol: "Sr", name: "Strontium", type: "metal"},
-            {symbol: "Ag", name: "Silver", type: "metal"},
-            {symbol: "Sn", name: "Tin", type: "metal"},
-            {symbol: "Sb", name: "Antimony", type: "non-metal"},
-            {symbol: "I", name: "Iodine", type: "non-metal"},
-            {symbol: "Cs", name: "Caesium", type: "metal"},
-            {symbol: "Ba", name: "Barium", type: "metal"},
-            {symbol: "Au", name: "Gold", type: "metal"},
-            {symbol: "Pb", name: "Lead", type: "metal"}
+            {symbol: "H", name: "Hydrogen", type: "non-metal", electronegativity: 2.2},
+            {symbol: "Li", name: "Lithium", type: "metal", electronegativity: 1.0},
+            {symbol: "Be", name: "Beryllium", type: "metal", electronegativity: 1.6},
+            {symbol: "B", name: "Boron", type: "non-metal", electronegativity: 2.0},
+            {symbol: "C", name: "Carbon", type: "non-metal", electronegativity: 2.6},
+            {symbol: "N", name: "Nitrogen", type: "non-metal", electronegativity: 3.0},
+            {symbol: "O", name: "Oxygen", type: "non-metal", electronegativity: 3.4},
+            {symbol: "F", name: "Fluorine", type: "non-metal", electronegativity: 4.0},
+            {symbol: "Na", name: "Sodium", type: "metal", electronegativity: 1.0},
+            {symbol: "Mg", name: "Magnesium", type: "metal", electronegativity: 1.2},
+            {symbol: "Al", name: "Aluminium", type: "metal", electronegativity: 1.5},
+            {symbol: "Si", name: "Silicon", type: "non-metal", electronegativity: 1.8},
+            {symbol: "P", name: "Phosphorus", type: "non-metal", electronegativity: 2.2},
+            {symbol: "S", name: "Sulfur", type: "non-metal", electronegativity: 2.6},
+            {symbol: "Cl", name: "Chlorine", type: "non-metal", electronegativity: 3.2},
+            {symbol: "K", name: "Potassium", type: "metal", electronegativity: 0.8},
+            {symbol: "Ca", name: "Calcium", type: "metal", electronegativity: 1.0},
+            {symbol: "Sc", name: "Scandium", type: "metal", electronegativity: 1.3},
+            {symbol: "Ti", name: "Titanium", type: "metal", electronegativity: 1.5},
+            {symbol: "V", name: "Vanadium", type: "metal", electronegativity: 1.6},
+            {symbol: "Cr", name: "Chromium", type: "metal", electronegativity: 1.6},
+            {symbol: "Mn", name: "Manganese", type: "metal", electronegativity: 1.5},
+            {symbol: "Fe", name: "Iron", type: "metal", electronegativity: 1.8},
+            {symbol: "Co", name: "Cobalt", type: "metal", electronegativity: 1.8},
+            {symbol: "Ni", name: "Nickel", type: "metal", electronegativity: 1.8},
+            {symbol: "Cu", name: "Copper", type: "metal", electronegativity: 1.9},
+            {symbol: "Zn", name: "Zinc", type: "metal", electronegativity: 1.7},
+            {symbol: "Ga", name: "Gallium", type: "metal", electronegativity: 1.8},
+            {symbol: "Ge", name: "Germanium", type: "metal", electronegativity: 2.0},
+            {symbol: "As", name: "Arsenic", type: "non-metal", electronegativity: 2.2},
+            {symbol: "Br", name: "Bromine", type: "non-metal", electronegativity: 2.8},
+            {symbol: "Rb", name: "Rubidium", type: "metal", electronegativity: 0.8},
+            {symbol: "Sr", name: "Strontium", type: "metal", electronegativity: 1.0},
+            {symbol: "Ag", name: "Silver", type: "metal", electronegativity: 1.9},
+            {symbol: "Sn", name: "Tin", type: "metal", electronegativity: 1.8},
+            {symbol: "Sb", name: "Antimony", type: "non-metal", electronegativity: 2.0},
+            {symbol: "I", name: "Iodine", type: "non-metal", electronegativity: 2.7},
+            {symbol: "Cs", name: "Caesium", type: "metal", electronegativity: 0.7},
+            {symbol: "Ba", name: "Barium", type: "metal", electronegativity: 0.9},
+            {symbol: "Au", name: "Gold", type: "metal", electronegativity: 2.4},
+            {symbol: "Pb", name: "Lead", type: "metal", electronegativity: 2.3}
         ];
         
+        let selectedElements = [];
+
         function randomizeElements() {
             const metals = elements.filter(el => el.type === "metal");
             const nonMetals = elements.filter(el => el.type === "non-metal");
@@ -100,9 +113,33 @@
             let showMetal = Math.random() < 0.5;
             
             if (showMetal) {
-                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol})`;
+                selectedElements = [metals[metalIndex], nonMetals[nonMetalIndex1]];
+                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}, EN: ${metals[metalIndex].electronegativity}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity})`;
             } else {
-                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol})`;
+                selectedElements = [nonMetals[nonMetalIndex1], nonMetals[nonMetalIndex2]];
+                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol}, EN: ${nonMetals[nonMetalIndex2].electronegativity})`;
+            }
+        }
+        
+              function checkBondType() {
+            const bondType = document.getElementById("bond-select").value;
+            const enDifference = Math.abs(selectedElements[0].electronegativity - selectedElements[1].electronegativity);
+            let correctBondType;
+
+            if (enDifference < 0.4) {
+                correctBondType = "non-polar covalent";
+            } else if (enDifference >= 0.4 && enDifference < 1.8 && selectedElements[0].type === "non-metal" && selectedElements[1].type === "non-metal") {
+                correctBondType = "polar covalent";
+            } else if (enDifference >= 1.6 && (selectedElements[0].type === "metal" || selectedElements[1].type === "metal")) {
+                correctBondType = "ionic";
+            } else {
+                correctBondType = "unknown";
+            }
+
+            if (bondType === correctBondType) {
+                document.getElementById("result").innerHTML = `Correct! The bond is ${correctBondType}.`;
+            } else {
+                document.getElementById("result").innerHTML = `Incorrect. The correct bond type is ${correctBondType}.`;
             }
         }
     </script>
