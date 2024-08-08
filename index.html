@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Element Randomiser</title>
+    <title>Chemical Element randomiser</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,9 +39,9 @@
     </style>
 </head>
 <body>
-    <h1>Chemical Element Randomisfer</h1>
+    <h1>Chemical Element randomiser</h1>
     <div id="elements">Press the button to get two random elements</div>
-    <button onclick="randomizeElements()">Get Elements</button>
+    <button onclick="randomiseElements()">Get Elements</button>
     <div id="bond-type">
         <p>Choose the bond type:</p>
         <select id="bond-select">
@@ -104,7 +104,7 @@
         let tries = 0;
         let bondChecked = false;
 
-                function randomizeElements() {
+                function randomiseElements() {
             const metals = elements.filter(el => el.type === "metal");
             const nonMetals = elements.filter(el => el.type === "non-metal");
 
@@ -163,6 +163,3 @@
     </script>
 </body>
 </html>
-
-
-
