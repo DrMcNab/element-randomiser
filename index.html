@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Element randomiser</title>
+    <title>Chemical Element Randomizer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
             margin: 20px;
             font-size: 1.5em;
         }
-        button {
+        button, #toggleButton {
             padding: 10px 20px;
             font-size: 1em;
             background-color: blue;
@@ -30,7 +30,7 @@
             cursor: pointer;
             margin: 10px;
         }
-        button:hover {
+        button:hover, #toggleButton:hover {
             background-color: darkblue;
         }
         #bond-type, #result, #score {
@@ -39,16 +39,17 @@
     </style>
 </head>
 <body>
-    <h1>Chemical Element randomiser</h1>
+    <h1>Chemical Element Randomizer</h1>
     <div id="elements">Press the button to get two random elements</div>
-    <button onclick="randomiseElements()">Get Elements</button>
+    <button onclick="randomizeElements()">Get Elements</button>
+    <button id="toggleButton" onclick="toggleEN()">Show Electronegativity</button>
     <div id="bond-type">
         <p>Choose the bond type:</p>
         <select id="bond-select">
             <option value="non-polar covalent">Non-polar Covalent</option>
             <option value="polar covalent">Polar Covalent</option>
             <option value="ionic">Ionic</option>
-            <option value="ambiguous ">ambiguous </option>
+            <option value="unknown">Unknown</option>
         </select>
         <button id="check-button" onclick="checkBondType()">Check Bond Type</button>
     </div>
@@ -103,8 +104,13 @@
         let score = 0;
         let tries = 0;
         let bondChecked = false;
+        let showEN = true;
 
-                function randomiseElements() {
+        function toggleEN() {
+            showEN = !showEN;
+            document.getElementById("toggleButton").innerHTML = showEN ? "Use Data Booklet" : "Show Electronegativity";
+        }
+        function randomizeElements() {
             const metals = elements.filter(el => el.type === "metal");
             const nonMetals = elements.filter(el => el.type === "non-metal");
 
@@ -119,10 +125,10 @@
 
             if (showMetal) {
                 selectedElements = [metals[metalIndex], nonMetals[nonMetalIndex1]];
-                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}, EN: ${metals[metalIndex].electronegativity !== null ? metals[metalIndex].electronegativity : 'N/A'}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity !== null ? nonMetals[nonMetalIndex1].electronegativity : 'N/A'})`;
+                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}${showEN ? `, EN: ${metals[metalIndex].electronegativity !== null ? metals[metalIndex].electronegativity : 'N/A'}` : ''}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}${showEN ? `, EN: ${nonMetals[nonMetalIndex1].electronegativity !== null ? nonMetals[nonMetalIndex1].electronegativity : 'N/A'}` : ''})`;
             } else {
                 selectedElements = [nonMetals[nonMetalIndex1], nonMetals[nonMetalIndex2]];
-                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity !== null ? nonMetals[nonMetalIndex1].electronegativity : 'N/A'}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol}, EN: ${nonMetals[nonMetalIndex2].electronegativity !== null ? nonMetals[nonMetalIndex2].electronegativity : 'N/A'})`;
+                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}${showEN ? `, EN: ${nonMetals[nonMetalIndex1].electronegativity !== null ? nonMetals[nonMetalIndex1].electronegativity : 'N/A'}` : ''}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol}${showEN ? `, EN: ${nonMetals[nonMetalIndex2].electronegativity !== null ? nonMetals[nonMetalIndex2].electronegativity : 'N/A'}` : ''})`;
             }
 
             bondChecked = false;
@@ -146,7 +152,7 @@
             } else if (enDifference >= 1.6 && (selectedElements[0].type === "metal" || selectedElements[1].type === "metal")) {
                 correctBondType = "ionic";
             } else {
-                correctBondType = "ambiguous ";
+                correctBondType = "unknown";
             }
 
             if (bondType === correctBondType) {
@@ -163,3 +169,6 @@
     </script>
 </body>
 </html>
+
+      
+
