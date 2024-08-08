@@ -50,7 +50,7 @@
             <option value="ionic">Ionic</option>
             <option value="unknown">Unknown</option>
         </select>
-        <button onclick="checkBondType()">Check Bond Type</button>
+        <button id="check-button" onclick="checkBondType()">Check Bond Type</button>
     </div>
     <div id="result"></div>
     <div id="score"></div>
@@ -102,8 +102,9 @@
         let selectedElements = [];
         let score = 0;
         let tries = 0;
+        let bondChecked = false;
 
-        function randomizeElements() {
+                function randomizeElements() {
             const metals = elements.filter(el => el.type === "metal");
             const nonMetals = elements.filter(el => el.type === "non-metal");
 
@@ -118,14 +119,22 @@
 
             if (showMetal) {
                 selectedElements = [metals[metalIndex], nonMetals[nonMetalIndex1]];
-                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}, EN: ${metals[metalIndex].electronegativity}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity})`;
+                document.getElementById("elements").innerHTML = `${metals[metalIndex].name} (${metals[metalIndex].symbol}, EN: ${metals[metalIndex].electronegativity !== null ? metals[metalIndex].electronegativity : 'N/A'}) and ${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity !== null ? nonMetals[nonMetalIndex1].electronegativity : 'N/A'})`;
             } else {
                 selectedElements = [nonMetals[nonMetalIndex1], nonMetals[nonMetalIndex2]];
-                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol}, EN: ${nonMetals[nonMetalIndex2].electronegativity})`;
+                document.getElementById("elements").innerHTML = `${nonMetals[nonMetalIndex1].name} (${nonMetals[nonMetalIndex1].symbol}, EN: ${nonMetals[nonMetalIndex1].electronegativity !== null ? nonMetals[nonMetalIndex1].electronegativity : 'N/A'}) and ${nonMetals[nonMetalIndex2].name} (${nonMetals[nonMetalIndex2].symbol}, EN: ${nonMetals[nonMetalIndex2].electronegativity !== null ? nonMetals[nonMetalIndex2].electronegativity : 'N/A'})`;
             }
+
+            bondChecked = false;
+            document.getElementById("result").innerHTML = '';
         }
 
-                function checkBondType() {
+        function checkBondType() {
+            if (bondChecked) {
+                document.getElementById("result").innerHTML = "You've already checked this bond type. Please generate new elements.";
+                return;
+            }
+
             const bondType = document.getElementById("bond-select").value;
             const enDifference = Math.abs(selectedElements[0].electronegativity - selectedElements[1].electronegativity);
             let correctBondType;
@@ -146,12 +155,14 @@
             } else {
                 document.getElementById("result").innerHTML = `Incorrect. The correct bond type is ${correctBondType}.`;
             }
-            
+
             tries++;
             document.getElementById("score").innerHTML = `Score: ${score} out of ${tries} tries.`;
+            bondChecked = true;
         }
     </script>
 </body>
 </html>
+
 
 
